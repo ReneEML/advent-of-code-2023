@@ -6,17 +6,13 @@ def parse_nums(nums: str):
 def parse_data(data: list[str]) -> list[tuple[list[int], list[int]]]:
     scratch_card_data = []
     for line in data:
-        line = line.split(":")
-        card_data = line[1].split("|")
-        winning_nums = parse_nums(card_data[0])
-        nums = parse_nums(card_data[1])
-        scratch_card_data.append((winning_nums, nums))
+        card_data = line.split(":")[1].split("|")
+        scratch_card_data.append((parse_nums(card_data[0]), parse_nums(card_data[1])))
     return scratch_card_data
 
 
 def num_matching(winning_nums, nums):
-    winning_set = set(winning_nums)
-    return sum(1 for num in nums if num in winning_set)
+    return sum(1 for num in nums if num in set(winning_nums))
 
 
 def calculate_score(winning_nums, nums):
@@ -33,8 +29,7 @@ def part_1(parsed: list[tuple[list[int], list[int]]]):
 def part_2(parsed: list[tuple[list[int], list[int]]]):
     cardCount = [1] * len(parsed)
     for i in range(len(parsed)):
-        score = num_matching(parsed[i][0], parsed[i][1])
-        for j in range(0, score):
+        for j in range(0, num_matching(parsed[i][0], parsed[i][1])):
             cardCount[i + j + 1] += cardCount[i]
     return sum(cardCount)
 
