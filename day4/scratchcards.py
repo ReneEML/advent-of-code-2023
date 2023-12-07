@@ -1,9 +1,9 @@
 
-def sanitize_nums(nums: str):
+def parse_nums(nums: str):
     return nums.strip().split(" ")
 
 
-def parse_nums(nums: list[str]) -> list[int]:
+def sanitize_nums(nums: list[str]) -> list[int]:
     return [int(num) for num in nums if num != ""]
 
 
@@ -12,8 +12,8 @@ def parse_data(data: list[str]) -> list[tuple[list[int], list[int]]]:
     for line in data:
         line = line.split(":")
         card_data = line[1].split("|")
-        winning_nums = parse_nums(sanitize_nums(card_data[0]))
-        nums = parse_nums(sanitize_nums(card_data[1]))
+        winning_nums = sanitize_nums(parse_nums(card_data[0]))
+        nums = sanitize_nums(parse_nums(card_data[1]))
         scratch_card_data.append((winning_nums, nums))
     return scratch_card_data
 
